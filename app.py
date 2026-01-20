@@ -44,7 +44,7 @@ def get_metadata():
         "tasks": TASKS,
         "ensemble_size": model_count,
         "version": "2.0.0",
-        "author": "Antigravity",
+        "author": "sk16er",
         "split": "Scaffold (90/10 Train/Val)"
     }
 
