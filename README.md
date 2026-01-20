@@ -1,6 +1,27 @@
 # Tox21 Toxicity Prediction (D‑MPNN Ensemble + RDKit descriptors)
 
 A reproducible pipeline and API for predicting toxicity across the 12 Tox21 endpoints using an ensemble of Directed Message Passing Neural Networks (D‑MPNNs) augmented with RDKit global descriptors.
+# peformance
+
+```bash
+Task-wise Performance:
+NR-AhR: 0.8931
+NR-AR: 0.8742
+NR-AR-LBD: 0.8931
+NR-Aromatase: 0.8661
+NR-ER: 0.8364
+NR-ER-LBD: 0.8909
+NR-PPAR-gamma: 0.8943
+SR-ARE: 0.8561
+SR-ATAD5: 0.8288
+SR-HSE: 0.8623
+SR-MMP: 0.9167
+SR-p53: 0.8544
+
+==============================
+Average ROC-AUC: 0.8722
+==============================
+```
 
 This repository contains code to:
 - train an ensemble of D‑MPNN models on a provided Tox21-style CSV,
