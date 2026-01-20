@@ -51,24 +51,36 @@ Prerequisites
 
 Using Docker (recommended)
 1. Build:
-   docker build -t tox21 .
+   ```
+   docker build -t tox21
+   ```
+   
 
 2. Run (exposes port 7860 as in Dockerfile):
+   ```
    docker run --rm -p 7860:7860 -v $(pwd)/checkpoints:/app/checkpoints tox21
+   ```
 
 3. The container runs uvicorn as the default command (see Dockerfile). The HTTP API will be available at http://localhost:7860.
 
 Local setup with conda (if not using Docker)
 1. Create environment and install RDKit:
+
+   ```
    conda create -n tox21 python=3.9 -y
    conda activate tox21
    conda install -c conda-forge rdkit -y
+   ```
 
-2. Install Python deps:
+3. Install Python deps:
+   ```
    pip install -r requirements.txt
+   ```
 
-3. Run the API (development):
+4. Run the API (development):
+   ```
    uvicorn app:app --host 0.0.0.0 --port 8000
+   ```
 
 ---
 
@@ -79,7 +91,7 @@ The training/validation loader expects a CSV named `tox21.csv` (or path passed t
 - the 12 task columns (same names as listed above) containing numeric labels (0/1/NaN for unknown)
 
 Example header:
-smiles,NR-AhR,NR-AR,NR-AR-LBD,NR-Aromatase,NR-ER,NR-ER-LBD,NR-PPAR-gamma,SR-ARE,SR-ATAD5,SR-HSE,SR-MMP,SR-p53
+> smiles,NR-AhR,NR-AR,NR-AR-LBD,NR-Aromatase,NR-ER,NR-ER-LBD,NR-PPAR-gamma,SR-ARE,SR-ATAD5,SR-HSE,SR-MMP,SR-p53
 
 Place `tox21.csv` at the repo root or pass its path to the data loader.
 
@@ -105,16 +117,20 @@ If you change hyperparameters, add a command-line option for them or edit parse_
 Serving / API usage
 
 Start server:
-- uvicorn app:app --host 0.0.0.0 --port 8000
+```
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
 (Or use the Dockerfile which runs uvicorn on port 7860.)
 
 Endpoints
 - POST /predict
   - Body: JSON with shape { "smiles": ["SMILES1", "SMILES2", ...] }
   - Example:
+   ```
     curl -X POST "http://localhost:8000/predict" \
       -H "Content-Type: application/json" \
       -d '{"smiles": ["CCO", "c1ccccc1"]}'
+   ```
 
   - Response: JSON mapping each input SMILES to a dictionary of task probabilities.
     Example response (illustrative):
@@ -139,7 +155,7 @@ Endpoints
       "tasks": [...],
       "ensemble_size": <n_models_loaded>,
       "version": "2.0.0",
-      "author": "Antigravity",
+      "author": "Sk16er",
       "split": "Scaffold (90/10 Train/Val)"
     }
 
@@ -155,7 +171,7 @@ Using the predictor programmatically
   from predict import Tox21Predictor
   predictor = Tox21Predictor(model_dir="checkpoints")
   results = predictor.predict(["CCO", "c1ccccc1"])
-  # results is a dict mapping SMILES -> {task: probability}
+  ### results is a dict mapping SMILES -> {task: probability}
 
 ---
 
